@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import { AiOutlineTwitter } from "react-icons/ai";
 import { BiLogoFacebook } from "react-icons/bi";
 import { Link } from "react-router-dom";
@@ -16,12 +16,12 @@ const Register = () => {
     setSuccess("");
     setError("");
     const formData = event.target;
-    console.log(formData);
     const name = formData.name.value;
+    const phone = "0124578";
     const email = formData.email.value;
     const password = formData.password.value;
     const confirmPassword = formData.confirmPassword.value;
-    const accept = formData.accept.value;
+    // const accept = formData.accept.value;
 
 
     if (name == '') {
@@ -49,8 +49,36 @@ const Register = () => {
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
-        const user = result.user;
-        setSuccess("User created Successfully!");
+        const user = result.user;        
+        setSuccess("User created Successfully!");        
+        formData.reset();
+
+        //  update profile
+        updateProfile(auth.currentUser, {
+          displayName: name,
+          phoneNumber: phone,
+          photoURL: "https://example.com/jane-q-user/profile.jpg"
+        })
+        .then(() => {
+          setSuccess("User profile updated successfully!");
+        })
+        .catch((err) => {
+          const errorMessage = err.message;
+          setError('User profile updated failed!');
+          console.error("Error: " + errorMessage);
+        });
+
+        //  email verify
+        sendEmailVerification(auth.currentUser)
+        .then(() => {
+          setSuccess("Please verify your email address.");
+        })
+        .catch((err) => {
+          const errorMessage = err.message;
+          setError('Email verification failed!');
+          console.error("Error: " + errorMessage);
+        });
+
         console.log(user);
       })
       .catch((err) => {
