@@ -1,7 +1,11 @@
+import { useContext } from "react";
 import UserSideBar from "../../components/user/UserSideBar";
 import { FaUser } from "react-icons/fa";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const UserProfile = () => {
+  const { user } = useContext(AuthContext);
+  console.log(user);
   return (
     <>
       <div className="w-5/6 mx-auto px-2 py-16 flex flex-col md:flex-row">
