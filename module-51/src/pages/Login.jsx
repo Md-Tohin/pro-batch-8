@@ -1,12 +1,13 @@
 import { AiOutlineTwitter } from "react-icons/ai";
 import { BiLogoFacebook } from "react-icons/bi";
 import { assets } from "../assets/assets";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 
 const Login = () => {
   const { loginUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleUserLoginEmailAndPassword = (e) => {
     e.preventDefault();
@@ -16,6 +17,7 @@ const Login = () => {
       .then((result) => {
         console.log(result.user);
         e.target.reset();
+        navigate('/user/dashboard');
       })
       .catch((error) => {
         console.error(error);

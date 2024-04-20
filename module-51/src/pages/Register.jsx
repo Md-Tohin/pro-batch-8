@@ -1,14 +1,19 @@
 import { AiOutlineTwitter } from "react-icons/ai";
 import { BiLogoFacebook } from "react-icons/bi";
 import { assets } from "../assets/assets";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import { updateProfile } from "firebase/auth";
 import auth from "../firebase/firebase.config";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
+  const { user, createUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  if(user){    
+    navigate('/user/dashboard');
+    return;
+  }
   
   //  register user using email amd password
   const handleRegisterUserWithEmailAndPassword = (e) => {
@@ -28,7 +33,7 @@ const Register = () => {
       updateProfile(auth.currentUser, {
         displayName: name, 
       }).then(() => {
-       
+       navigate('/user/dashboard');
       }).catch((error) => {
         console.error(error);
       });

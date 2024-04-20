@@ -3,13 +3,23 @@ import { Link } from "react-router-dom";
 import { assets } from "../../assets/assets";
 import { FaUserEdit } from "react-icons/fa";
 import { FaList } from "react-icons/fa6";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const UserSideBar = () => {
+  const { logOut } = useContext(AuthContext);
+  const handleLogOut = () => {
+    logOut()
+      .then(() => console.log("User Logout Successfully"))
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <>
       <aside className="">
         <div className="stats stats-vertical shadow w-full font-semibold">
-          <div className="stat bg-red-500">
+          <div className="stat bg-orange-500">
             <div className="stat-title text-center">
               <img src={assets.profilePhoto} alt="Image" className="w-16 mx-auto border border-red-500 rounded-md pb-1" />
               <span className="text-lg font-bold text-stone-700 mr-2">                
@@ -61,7 +71,7 @@ const UserSideBar = () => {
               </div>
             </div>
           </Link>
-          <Link to="/user/dashboard">
+          <Link onClick={handleLogOut}>
             <div className="stat">
               <div className="stat-title flex">
                 {" "}

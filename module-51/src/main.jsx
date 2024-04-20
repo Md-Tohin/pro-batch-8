@@ -13,6 +13,8 @@ import UserDashboard from "./pages/user/UserDashboard.jsx";
 import UserProfile from "./pages/user/UserProfile.jsx";
 import UserOrder from "./pages/user/UserOrder.jsx";
 import AuthProvider from './providers/AuthProvider';
+import PrivateRoute from "./routes/PrivateRoute.jsx";
+import AuthRoute from "./routes/AuthRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -33,11 +35,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/contact",
-        element: <Contact />,
+        element: <PrivateRoute><Contact /></PrivateRoute>,
       },
       {
         path: "/login",
-        element: <Login />,
+        element: <AuthRoute><Login /></AuthRoute>,
       },
       {
         path: "/register",
@@ -45,15 +47,15 @@ const router = createBrowserRouter([
       },      
       {
         path: "/user/dashboard", 
-        element: <UserDashboard /> 
+        element: <PrivateRoute><UserDashboard /></PrivateRoute>
       },
       {
         path: "/user/orders",
-        element: <UserOrder /> 
+        element: <PrivateRoute><UserOrder /> </PrivateRoute>
       },
       { 
-        path: "/user/profile",  
-        element: <UserProfile /> 
+        path: "/user/profile",
+        element: <PrivateRoute><UserProfile /> </PrivateRoute>
       }
     ],
   },
